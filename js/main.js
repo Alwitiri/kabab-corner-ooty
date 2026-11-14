@@ -56,11 +56,18 @@
     document.body.classList.add("has-mobile-bar");
   }
 
-  // Reveal on scroll
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
-  }, { threshold: 0.12 });
-  $$(".reveal").forEach((el) => io.observe(el));
+  // Reveal on scroll — anything already on screen shows immediately,
+  // and everything is shown if the observer is unavailable
+  const reveals = $$(".reveal");
+  const showAll = () => reveals.forEach((el) => el.classList.add("in"));
+  if (!("IntersectionObserver" in window)) showAll();
+  else {
+    reveals.forEach((el) => { if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("in"); });
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+    }, { threshold: 0, rootMargin: "0px 0px -40px 0px" });
+    reveals.forEach((el) => { if (!el.classList.contains("in")) io.observe(el); });
+  }
 
   // Toast
   const toast = document.createElement("div");
