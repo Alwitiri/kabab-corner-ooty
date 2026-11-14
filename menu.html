@@ -89,6 +89,10 @@
   </footer>
 
   <!-- ===== Order drawer ===== -->
+  <button class="order-bar" id="orderBar" aria-label="View your order">
+    <span><span id="obCount">0 items</span><small>Tap to review &amp; send</small></span>
+    <span>View Order · <span id="obTotal">₹0</span> <i class="fa-solid fa-chevron-up"></i></span>
+  </button>
   <div class="drawer-backdrop" id="drawerBackdrop"></div>
   <aside class="drawer" id="drawer" aria-label="Your order">
     <div class="drawer-head">
@@ -208,7 +212,11 @@
       const b = e.target.closest(".cat");
       if (!b) return;
       render(current === b.dataset.cat ? null : b.dataset.cat);
-      b.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      track.scrollTo({ left: b.offsetLeft - (track.clientWidth - b.offsetWidth) / 2, behavior: "smooth" });
+      // On phones, jump to the top of the list so the new dishes are in view
+      const bar = $(".cat-bar"), section = $(".dishes-section");
+      const top = section.getBoundingClientRect().top + scrollY - bar.offsetHeight - (parseInt(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 0);
+      if (scrollY > top) window.scrollTo({ top, behavior: "smooth" });
     });
     $("#exploreAll").onclick = (e) => {
       e.preventDefault();
@@ -230,6 +238,10 @@
       $("#cartCount").textContent = count;
       $("#cartBtn").classList.toggle("show", count > 0);
       $("#cartTotal").textContent = rupee(total);
+      $("#orderBar").classList.toggle("show", count > 0);
+      document.body.classList.toggle("has-order", count > 0);
+      $("#obCount").textContent = `${count} item${count === 1 ? "" : "s"}`;
+      $("#obTotal").textContent = rupee(total);
       $("#drawerItems").innerHTML = ids.length ? ids.map((id) => {
         const d = byId(id);
         return `<div class="cart-item">
@@ -260,7 +272,7 @@
 
     const drawer = $("#drawer"), backdrop = $("#drawerBackdrop");
     const openDrawer = (o) => { drawer.classList.toggle("open", o); backdrop.classList.toggle("open", o); };
-    $("#cartBtn").onclick = () => openDrawer(true);
+    $("#cartBtn").onclick = $("#orderBar").onclick = () => openDrawer(true);
     $("#drawerClose").onclick = backdrop.onclick = () => openDrawer(false);
     $("#clearOrder").onclick = () => { cart = {}; refreshCart(); };
 
