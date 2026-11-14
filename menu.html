@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Menu | Kabab Corner Restaurant, Ooty</title>
+  <meta name="description" content="Kabab Corner digital menu — kebabs, biryani, tandoori, curries, starters, breads and beverages." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo" aria-label="Kabab Corner Restaurant home">
+        <svg class="hat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 13.9A4 4 0 0 1 7.5 6.1a5 5 0 0 1 9 0A4 4 0 0 1 18 13.9V20H6z"/><path d="M6 17h12"/></svg>
+        <span class="name">KABAB CORNER</span>
+        <span class="sub">RESTAURANT</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="menu.html" class="active">Menu</a></li>
+        <li><a href="index.html#gallery">Gallery</a></li>
+        <li><a href="index.html#reviews">Reviews</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartBtn" aria-label="View order"><i class="fa-solid fa-bag-shopping"></i><span class="cart-count" id="cartCount">0</span></button>
+        <a href="#" class="btn btn-outline book-btn" data-book><i class="fa-regular fa-calendar-check"></i><span>Book a Table</span></a>
+        <button class="menu-toggle" aria-label="Open menu" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Menu hero ===== -->
+  <section class="hero menu-hero">
+    <div class="hero-bg"><img class="ph" id="menuHeroImg" alt="Kebabs grilling over fire" /></div>
+    <div class="container menu-hero-grid">
+      <div class="reveal">
+        <h1><span class="script">Our</span><span class="script">Digital Menu</span></h1>
+        <div class="tagline"><span>Scan</span><span>•</span><span>Explore</span><span>•</span><span>Enjoy</span></div>
+        <p>Discover our delicious dishes and find your favourites!</p>
+        <div class="qr-pill">
+          <i class="fa-solid fa-qrcode"></i>
+          <div><strong>Scan the QR Code</strong><small>on your table to view this menu</small></div>
+        </div>
+      </div>
+      <div class="good-mood script">Good Food<br />Good Mood</div>
+    </div>
+  </section>
+
+  <!-- ===== Categories ===== -->
+  <div class="cat-bar">
+    <div class="container cat-wrap">
+      <button class="round-btn" id="catPrev" aria-label="Scroll categories left"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="cat-track" id="catTrack" role="tablist"></div>
+      <button class="round-btn" id="catNext" aria-label="Scroll categories right"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ===== Dishes ===== -->
+  <section class="dishes-section">
+    <div class="container">
+      <div class="dishes-head">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#f2b544" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 13.9A4 4 0 0 1 7.5 6.1a5 5 0 0 1 9 0A4 4 0 0 1 18 13.9V20H6z"/><path d="M6 17h12"/></svg>
+        <h2 id="gridTitle">Our Specialties</h2>
+        <p id="gridSub">A perfect blend of taste and tradition</p>
+      </div>
+      <div class="dish-grid" id="dishGrid"></div>
+    </div>
+  </section>
+
+  <section class="menu-cta">
+    <div class="container menu-cta-inner">
+      <h2>Experience the true<br />flavour of <span class="gold">Kabab Corner</span></h2>
+      <a href="#" class="btn btn-outline" id="exploreAll">Explore More Menu <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <footer class="site-footer" id="contact">
+    <div class="container footer-bottom">
+      <span>© <span id="year"></span> Kabab Corner Restaurant · <span data-r="address"></span> · <a data-tel href="#"><span data-r="phone"></span></a></span>
+      <span>Prices in ₹, inclusive of taxes. <span style="color:#1a8f3a">●</span> Veg &nbsp;<span style="color:#b5261e">●</span> Non-veg</span>
+    </div>
+  </footer>
+
+  <!-- ===== Order drawer ===== -->
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="drawer" aria-label="Your order">
+    <div class="drawer-head">
+      <h3>Your Order</h3>
+      <button class="round-btn" id="drawerClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="drawer-items" id="drawerItems"></div>
+    <div class="drawer-foot">
+      <div class="total-row"><span>Total</span><span class="gold" id="cartTotal">₹0</span></div>
+      <form id="orderForm">
+        <div class="order-type" role="radiogroup" aria-label="Order type">
+          <label><input type="radio" name="type" value="dinein" checked /><span><i class="fa-solid fa-chair"></i> Dine-in</span></label>
+          <label><input type="radio" name="type" value="takeaway" /><span><i class="fa-solid fa-bag-shopping"></i> Takeaway</span></label>
+        </div>
+        <div class="form-grid">
+          <div class="field full" data-for="dinein"><label for="oTable">Table number</label><input id="oTable" name="table" inputmode="numeric" placeholder="e.g. 5" /></div>
+          <div class="field" data-for="takeaway" hidden><label for="oName">Name</label><input id="oName" name="name" autocomplete="name" /></div>
+          <div class="field" data-for="takeaway" hidden><label for="oPhone">Phone</label><input id="oPhone" name="phone" type="tel" pattern="[0-9+\s-]{10,15}" autocomplete="tel" /></div>
+          <div class="field full"><label for="oNote">Note for the kitchen (optional)</label><input id="oNote" name="note" placeholder="e.g. less spicy" /></div>
+        </div>
+        <button type="submit" class="btn btn-solid" id="placeOrder" style="margin-top:14px">Send Order via WhatsApp <i class="fa-brands fa-whatsapp"></i></button>
+      </form>
+      <button class="btn btn-outline" id="clearOrder" style="margin-top:10px">Clear Order</button>
+    </div>
+  </aside>
+
+  <!-- ===== Booking modal ===== -->
+  <div class="modal" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookTitle">
+    <div class="modal-card">
+      <button class="round-btn close" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-body">
+        <h3 id="bookTitle">Book a Table</h3>
+        <p>Fill in your details — your booking will be sent to us on WhatsApp.</p>
+        <form>
+          <div class="form-grid">
+            <div class="field full"><label for="bName">Name</label><input id="bName" name="name" required autocomplete="name" /></div>
+            <div class="field full"><label for="bPhone">Phone</label><input id="bPhone" name="phone" type="tel" required pattern="[0-9+\s-]{10,15}" autocomplete="tel" /></div>
+            <div class="field"><label for="bDate">Date</label><input id="bDate" name="date" type="date" required /></div>
+            <div class="field"><label for="bTime">Time</label><input id="bTime" name="time" type="time" min="11:00" max="22:30" value="19:30" required /></div>
+            <div class="field full"><label for="bGuests">Guests</label>
+              <select id="bGuests" name="guests">
+                <option>1 guest</option><option selected>2 guests</option><option>3 guests</option><option>4 guests</option>
+                <option>5 guests</option><option>6 guests</option><option>8+ guests</option>
+              </select>
+            </div>
+            <div class="field full"><label for="bNote">Special request (optional)</label><textarea id="bNote" name="note" rows="2"></textarea></div>
+          </div>
+          <button type="submit" class="btn btn-solid">Send via WhatsApp <i class="fa-brands fa-whatsapp"></i></button>
+        </form>
+      </div>
+      <div class="success" hidden>
+        <i class="fa-solid fa-circle-check"></i>
+        <h3>Almost done!</h3>
+        <p class="success-msg"></p>
+        <button class="btn btn-outline" data-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order summary modal -->
+  <div class="modal" id="orderModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button class="round-btn close" data-oclose aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <h3>Almost done!</h3>
+      <p>WhatsApp has opened with your order — just press <strong>Send</strong>. You can also show this screen to your waiter.</p>
+      <div id="orderSummary"></div>
+      <a class="btn btn-outline" id="orderWaLink" href="#" target="_blank" rel="noopener" style="width:100%;justify-content:center;margin-top:18px">WhatsApp didn't open? Tap here <i class="fa-brands fa-whatsapp"></i></a>
+      <button class="btn btn-solid" id="newOrder" style="width:100%;justify-content:center;margin-top:10px">Done — Start a New Order</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const $ = (s) => document.querySelector(s);
+    $("#menuHeroImg").src = IMG.grillHero;
+
+    // ----- Categories -----
+    const track = $("#catTrack");
+    track.innerHTML = CATEGORIES.map((c) =>
+      `<button class="cat" role="tab" data-cat="${c.id}"><i class="fa-solid ${c.icon}"></i>${c.label}</button>`).join("");
+    $("#catPrev").onclick = () => track.scrollBy({ left: -240 });
+    $("#catNext").onclick = () => track.scrollBy({ left: 240 });
+
+    const rupee = (n) => "₹" + n.toLocaleString("en-IN");
+    const grid = $("#dishGrid");
+    let current = null;
+
+    function render(catId) {
+      current = catId;
+      document.querySelectorAll(".cat").forEach((b) => {
+        b.classList.toggle("active", b.dataset.cat === catId);
+        b.setAttribute("aria-selected", b.dataset.cat === catId);
+      });
+      const cat = CATEGORIES.find((c) => c.id === catId);
+      const list = cat ? DISHES.filter((d) => d.cat === catId) : DISHES.filter((d) => d.special);
+      $("#gridTitle").textContent = cat ? cat.label : "Our Specialties";
+      $("#gridSub").textContent = cat ? `${list.length} dishes, freshly prepared` : "A perfect blend of taste and tradition";
+      grid.innerHTML = list.map((d, i) => `
+        <article class="dish" style="animation-delay:${i * 60}ms">
+          <div class="dish-img">
+            <img class="ph" src="${d.img}" alt="${d.name}" loading="lazy" />
+            <span class="veg-tag ${d.veg ? "veg" : "nonveg"}" title="${d.veg ? "Vegetarian" : "Non-vegetarian"}"></span>
+          </div>
+          <div class="dish-body">
+            <h3>${d.name}</h3>
+            <p>${d.desc}</p>
+            <div class="dish-foot">
+              <span class="price">${rupee(d.price)}</span>
+              <button class="btn btn-outline btn-sm add-btn" data-add="${d.id}">${addLabel(d.id)}</button>
+            </div>
+          </div>
+        </article>`).join("");
+      history.replaceState(null, "", catId ? "#" + catId : location.pathname);
+    }
+    track.addEventListener("click", (e) => {
+      const b = e.target.closest(".cat");
+      if (!b) return;
+      render(current === b.dataset.cat ? null : b.dataset.cat);
+      b.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    });
+    $("#exploreAll").onclick = (e) => {
+      e.preventDefault();
+      render(CATEGORIES[0].id);
+      $(".cat-bar").scrollIntoView({ behavior: "smooth" });
+    };
+
+    // ----- Order (cart) -----
+    let cart = {};
+    try { cart = JSON.parse(localStorage.getItem("kc-cart")) || {}; } catch (e) {}
+    const save = () => { try { localStorage.setItem("kc-cart", JSON.stringify(cart)); } catch (e) {} };
+    const byId = (id) => DISHES.find((d) => d.id == id);
+    function addLabel(id) { return cart[id] ? `Added · ${cart[id]}` : `Add <i class="fa-solid fa-plus"></i>`; }
+
+    function refreshCart() {
+      const ids = Object.keys(cart).filter((id) => byId(id));
+      const count = ids.reduce((s, id) => s + cart[id], 0);
+      const total = ids.reduce((s, id) => s + cart[id] * byId(id).price, 0);
+      $("#cartCount").textContent = count;
+      $("#cartBtn").classList.toggle("show", count > 0);
+      $("#cartTotal").textContent = rupee(total);
+      $("#drawerItems").innerHTML = ids.length ? ids.map((id) => {
+        const d = byId(id);
+        return `<div class="cart-item">
+          <img class="ph" src="${d.img}" alt="" />
+          <div class="info"><strong>${d.name}</strong><span>${rupee(d.price)}</span></div>
+          <div class="qty"><button data-dec="${id}" aria-label="Remove one">−</button><span>${cart[id]}</span><button data-inc="${id}" aria-label="Add one">+</button></div>
+        </div>`;
+      }).join("") : `<div class="empty"><i class="fa-solid fa-bowl-food"></i>Your order is empty.<br />Tap “Add +” on any dish.</div>`;
+      document.querySelectorAll("[data-add]").forEach((b) => {
+        b.innerHTML = addLabel(b.dataset.add);
+        b.classList.toggle("added", !!cart[b.dataset.add]);
+      });
+      save();
+    }
+    const change = (id, n) => { cart[id] = (cart[id] || 0) + n; if (cart[id] <= 0) delete cart[id]; refreshCart(); };
+
+    grid.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-add]");
+      if (!b) return;
+      change(b.dataset.add, 1);
+      showToast(`${byId(b.dataset.add).name} added to your order`);
+    });
+    $("#drawerItems").addEventListener("click", (e) => {
+      const inc = e.target.closest("[data-inc]"), dec = e.target.closest("[data-dec]");
+      if (inc) change(inc.dataset.inc, 1);
+      if (dec) change(dec.dataset.dec, -1);
+    });
+
+    const drawer = $("#drawer"), backdrop = $("#drawerBackdrop");
+    const openDrawer = (o) => { drawer.classList.toggle("open", o); backdrop.classList.toggle("open", o); };
+    $("#cartBtn").onclick = () => openDrawer(true);
+    $("#drawerClose").onclick = backdrop.onclick = () => openDrawer(false);
+    $("#clearOrder").onclick = () => { cart = {}; refreshCart(); };
+
+    const orderModal = $("#orderModal");
+    // Order type toggle: dine-in needs a table number, takeaway needs name + phone
+    const orderForm = $("#orderForm");
+    const syncType = () => {
+      const type = orderForm.type.value;
+      orderForm.querySelectorAll("[data-for]").forEach((f) => {
+        const on = f.dataset.for === type;
+        f.hidden = !on;
+        f.querySelector("input").required = on;
+      });
+    };
+    orderForm.addEventListener("change", (e) => { if (e.target.name === "type") syncType(); });
+    syncType();
+
+    orderForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const ids = Object.keys(cart).filter((id) => byId(id));
+      if (!ids.length) return showToast("Add a dish first");
+      const total = ids.reduce((s, id) => s + cart[id] * byId(id).price, 0);
+      const f = Object.fromEntries(new FormData(orderForm));
+
+      const lines = ["*New Order - Kabab Corner*", ""];
+      if (f.type === "dinein") lines.push(`Dine-in · Table ${f.table.trim()}`);
+      else lines.push("Takeaway", `Name: ${f.name.trim()}`, `Phone: ${f.phone.trim()}`);
+      lines.push("");
+      ids.forEach((id) => lines.push(`${cart[id]} x ${byId(id).name} - ${rupee(cart[id] * byId(id).price)}`));
+      lines.push("", `*Total: ${rupee(total)}*`);
+      if (f.note && f.note.trim()) lines.push(`Note: ${f.note.trim()}`);
+      const url = openWhatsApp(lines.join("\n"));
+      $("#orderWaLink").href = url;
+      $("#orderSummary").innerHTML = ids.map((id) =>
+        `<div class="total-row" style="font-size:15px;font-weight:400;margin:0;padding:8px 0;border-bottom:1px solid var(--line-soft)">
+          <span>${cart[id]} × ${byId(id).name}</span><span>${rupee(cart[id] * byId(id).price)}</span></div>`).join("") +
+        `<div class="total-row" style="margin-top:14px"><span>Total</span><span class="gold">${rupee(total)}</span></div>`;
+      openDrawer(false);
+      orderModal.classList.add("open");
+    });
+    $("#newOrder").onclick = () => {
+      cart = {}; refreshCart(); orderForm.reset(); syncType();
+      orderModal.classList.remove("open");
+    };
+    orderModal.addEventListener("click", (e) => { if (e.target === orderModal || e.target.closest("[data-oclose]")) orderModal.classList.remove("open"); });
+
+    // Initial view: category from URL hash (e.g. menu.html#biryani) or specialties
+    const hashCat = location.hash.slice(1);
+    render(CATEGORIES.some((c) => c.id === hashCat) ? hashCat : null);
+    refreshCart();
+  </script>
+</body>
+</html>
