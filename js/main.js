@@ -9,24 +9,51 @@
     if (t.tagName === "IMG" && !t.dataset.failed) { t.dataset.failed = 1; t.removeAttribute("src"); t.classList.add("ph"); }
   }, true);
 
-  // Header on scroll
+  // Header on scroll (+ expose its height to CSS for sticky bars)
   const header = $(".site-header");
-  const onScroll = () => header && header.classList.toggle("scrolled", window.scrollY > 40);
+  const setHeaderH = () => header && document.documentElement.style.setProperty("--header-h", header.offsetHeight + "px");
+  const onScroll = () => {
+    if (!header) return;
+    header.classList.toggle("scrolled", window.scrollY > 40);
+    setHeaderH();
+  };
   window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", setHeaderH);
   onScroll();
 
-  // Mobile nav
+  // Mobile nav (slide-in panel with backdrop, locks page scroll)
   const toggle = $(".menu-toggle"), links = $(".nav-links");
   if (toggle && links) {
-    toggle.addEventListener("click", () => {
-      const open = links.classList.toggle("open");
+    const backdrop = document.createElement("div");
+    backdrop.className = "nav-backdrop";
+    document.body.appendChild(backdrop);
+    const setNav = (open) => {
+      links.classList.toggle("open", open);
+      backdrop.classList.toggle("open", open);
+      document.body.classList.toggle("no-scroll", open);
       toggle.innerHTML = open ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
       toggle.setAttribute("aria-expanded", open);
-    });
-    $$("a", links).forEach((a) => a.addEventListener("click", () => {
-      links.classList.remove("open");
-      toggle.innerHTML = '<i class="fa-solid fa-bars"></i>';
-    }));
+    };
+    toggle.addEventListener("click", () => setNav(!links.classList.contains("open")));
+    backdrop.addEventListener("click", () => setNav(false));
+    $$("a", links).forEach((a) => a.addEventListener("click", () => setNav(false)));
+  }
+
+  // Mobile bottom action bar: Call · Menu/Home · Book · WhatsApp
+  if (typeof RESTAURANT !== "undefined") {
+    const onMenu = /menu\.html/.test(location.pathname);
+    const bar = document.createElement("nav");
+    bar.className = "mobile-bar";
+    bar.setAttribute("aria-label", "Quick actions");
+    bar.innerHTML = `
+      <a href="tel:${RESTAURANT.phone.replace(/\s/g, "")}"><i class="fa-solid fa-phone"></i><span>Call</span></a>
+      ${onMenu
+        ? `<a href="index.html"><i class="fa-solid fa-house"></i><span>Home</span></a>`
+        : `<a href="menu.html"><i class="fa-solid fa-book-open"></i><span>Menu</span></a>`}
+      <a href="#" data-book class="primary"><i class="fa-regular fa-calendar-check"></i><span>Book</span></a>
+      <a href="https://wa.me/${RESTAURANT.whatsapp}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i><span>WhatsApp</span></a>`;
+    document.body.appendChild(bar);
+    document.body.classList.add("has-mobile-bar");
   }
 
   // Reveal on scroll
